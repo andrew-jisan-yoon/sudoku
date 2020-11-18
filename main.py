@@ -1,48 +1,25 @@
 import pygame
+from param import *
+from src.board import *
+from src.process import *
 
-surface_size = (800, 800)
-
-
-def event_response(event, status):
-    if event.type == pygame.QUIT:
-        status["run"] = False
-
-    # ======= Numbers ====
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_1:
-            key = 1
-        if event.key == pygame.K_2:
-            key = 2
-        if event.key == pygame.K_3:
-            key = 3
-        if event.key == pygame.K_4:
-            key = 4
-        if event.key == pygame.K_5:
-            key = 5
-        if event.key == pygame.K_6:
-            key = 6
-        if event.key == pygame.K_7:
-            key = 7
-        if event.key == pygame.K_8:
-            key = 8
-        if event.key == pygame.K_9:
-            key = 9
-
-    # ==============
+pygame.font.init()
 
 
 def main():
     surface = pygame.display.set_mode(surface_size)
+    surface.fill((255, 255, 255))  # white background
     pygame.display.set_caption("Sudoku")
-    clock = pygame.time.Clock()
-    status = {"run": True, "key": None}
+    # solution_button =\
+    #     pygame.draw.rect(surface, (255, 255, 255), (150, 600, 100, 50))
+    status = {"is_running": True, "key": None}
 
-    while status['run']:
+    while status['is_running']:
         for event in pygame.event.get():
             status = event_response(event, status)
 
         pygame.display.update()
 
 
-main()
-pygame.quit()
+if __name__ == "__main__":
+    main()
