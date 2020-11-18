@@ -1,3 +1,6 @@
+from param import *
+
+
 class Board:
 
     def __init__(self,
