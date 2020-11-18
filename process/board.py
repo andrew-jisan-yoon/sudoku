@@ -1,9 +1,9 @@
 class Board:
 
     def __init__(self,
-                 window: "pygame.surface",
+                 display: "pygame.surface",
                  puzzle: "list of lists"):
-        self.window = window
+        self.display = display
         self.puzzle = puzzle
         self.squares = [[Square(self.puzzle[i][j], (i, j))
                         for j in len(self.puzzle)]
@@ -14,9 +14,11 @@ class Board:
 
 
 class Square:
-    def __init__(self, value, coord):
+    def __init__(self,
+                 coord: "coordinates by indices",
+                 value: int):
+        self.coord = coord
         self.value = value
-        self.coord = coord  # Coordinates by indices
         self.is_selected = False
 
     def draw():
