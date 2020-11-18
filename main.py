@@ -7,11 +7,9 @@ pygame.font.init()
 
 
 def main():
-    surface = pygame.display.set_mode(surface_size)
-    surface.fill((255, 255, 255))  # white background
+    display = pygame.display.set_mode(display_size)
+    display.fill(display_color)
     pygame.display.set_caption("Sudoku")
-    # solution_button =\
-    #     pygame.draw.rect(surface, (255, 255, 255), (150, 600, 100, 50))
     status = {"is_running": True, "key": None}
 
     while status['is_running']:
