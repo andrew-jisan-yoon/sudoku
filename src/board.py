@@ -16,7 +16,7 @@ class Board:
         self.line_color = line_color
         self.selection_color = selection_color
         self.text_color = text_color
-        self.squares = [[Square(self.puzzle[i][j], (i, j))
+        self.squares = [[Square((i, j), self.puzzle[i][j])
                         for i in range(len(self.puzzle))]
                         for j in range(len(self.puzzle[0]))]
 
