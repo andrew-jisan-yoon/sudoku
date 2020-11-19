@@ -1,5 +1,4 @@
 import pygame
-from param import *
 
 
 def valid(board, value, location):
