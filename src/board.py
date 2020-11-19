@@ -20,7 +20,7 @@ class Board:
                         for i in range(len(self.puzzle))]
                         for j in range(len(self.puzzle[0]))]
 
-    def draw():
+    def draw(self):
         horizontal, vertical = self.display.get_size()
         for n in range(9 + 1):
             start_horizontal = (0, n * vertical / 9)
