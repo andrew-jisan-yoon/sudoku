@@ -9,6 +9,7 @@ pygame.font.init()
 def main():
     display = pygame.display.set_mode(display_size)
     display.fill(display_color)
+    fnt = pygame.font.SysFont(font_name, font_size)
     pygame.display.set_caption("Sudoku")
     status = {"is_running": True, "key": None}
 
