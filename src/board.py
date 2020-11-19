@@ -17,8 +17,8 @@ class Board:
         self.selection_color = selection_color
         self.text_color = text_color
         self.squares = [[Square(self.puzzle[i][j], (i, j))
-                        for i in len(self.puzzle)]
-                        for j in len(self.puzzle[0])]
+                        for i in range(len(self.puzzle))]
+                        for j in range(len(self.puzzle[0]))]
 
     def draw():
         horizontal, vertical = self.display.get_size()
