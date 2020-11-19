@@ -46,26 +46,26 @@ def event_response(event, status):
 
     # ======= Keyboard input ====
     if event.type == pygame.KEYDOWN:
-        if event.status['key'] = = pygame.K_1:
+        if event.status['key'] == pygame.K_1:
             status['key'] = 1
-        if event.status['key'] = = pygame.K_2:
+        if event.status['key'] == pygame.K_2:
             status['key'] = 2
-        if event.status['key'] = = pygame.K_3:
+        if event.status['key'] == pygame.K_3:
             status['key'] = 3
-        if event.status['key'] = = pygame.K_4:
+        if event.status['key'] == pygame.K_4:
             status['key'] = 4
-        if event.status['key'] = = pygame.K_5:
+        if event.status['key'] == pygame.K_5:
             status['key'] = 5
-        if event.status['key'] = = pygame.K_6:
+        if event.status['key'] == pygame.K_6:
             status['key'] = 6
-        if event.status['key'] = = pygame.K_7:
+        if event.status['key'] == pygame.K_7:
             status['key'] = 7
-        if event.status['key'] = = pygame.K_8:
+        if event.status['key'] == pygame.K_8:
             status['key'] = 8
-        if event.status['key'] = = pygame.K_9:
+        if event.status['key'] == pygame.K_9:
             status['key'] = 9
 
-        if event.status['key'] = = pygame.K_RETURN:
+        if event.status['key'] == pygame.K_RETURN:
             pass
 
     # ======= Mouse input =======
