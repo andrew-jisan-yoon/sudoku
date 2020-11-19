@@ -4,12 +4,18 @@ import pygame
 class Board:
 
     def __init__(self,
-                 display: "pygame.surface",
+                 display: pygame.Surface,
                  puzzle: "list of lists",
-                 line_color: "RGB tuple"):
+                 font: pygame.font.Font,
+                 line_color: "RGB tuple",
+                 selection_color: "RGB tuple",
+                 text_color: "RGB tuple"):
         self.display = display
         self.puzzle = puzzle
+        self.font = font
         self.line_color = line_color
+        self.selection_color = selection_color
+        self.text_color = text_color
         self.squares = [[Square(self.puzzle[i][j], (i, j))
                         for i in len(self.puzzle)]
                         for j in len(self.puzzle[0])]
@@ -38,7 +44,10 @@ class Board:
         # show status of the squares
         for i in range(len(self.puzzle)):
             for j in range(len(self.puzzle[0])):
-                self.squares[i][j].draw_status()
+                self.squares[i][j].draw_status(self.display,
+                                               self.font,
+                                               self.selection_color,
+                                               self.text_color)
 
 
 class Square:
@@ -49,5 +58,21 @@ class Square:
         self.value = value
         self.is_selected = False
 
-    def draw_status():
-        pass
+    def draw_status(self, display, font, selection_color, text_color):
+        horizontal, vertical = display.get_size()
+        topleft_vertex = (self.coord[0] * horizontal / 9,
+                          self.coord[1] * vertical / 9)
+
+        # Draw the value at the center
+        text = font.render(str(self.value), True, text_color)
+        text_location = (topleft_vertex[0] +
+                         horizontal / 9 / 2 - text.get_width() / 2,
+                         topleft_vertex[1] +
+                         vertical / 9 / 2 - text.get_height() / 2)
+        display.blit(text, text_location)
+
+        # Overlay a rectangle if selected
+        if self.is_selected:
+            rect = topleft_vertex + (horizontal / 9, vertical / 9)
+            width = 4
+            pygame.draw.rect(display, selection_color, rect, width)
