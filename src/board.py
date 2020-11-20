@@ -64,12 +64,13 @@ class Square:
                           self.coord[1] * vertical / 9)
 
         # Draw the value at the center
-        text = font.render(str(self.value), True, text_color)
-        text_location = (topleft_vertex[0] +
-                         horizontal / 9 / 2 - text.get_width() / 2,
-                         topleft_vertex[1] +
-                         vertical / 9 / 2 - text.get_height() / 2)
-        display.blit(text, text_location)
+        if self.value != 0:
+            text = font.render(str(self.value), True, text_color)
+            text_location = (topleft_vertex[0] +
+                             horizontal / 9 / 2 - text.get_width() / 2,
+                             topleft_vertex[1] +
+                             vertical / 9 / 2 - text.get_height() / 2)
+            display.blit(text, text_location)
 
         # Overlay a rectangle if selected
         if self.is_selected:
