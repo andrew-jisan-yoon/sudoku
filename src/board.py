@@ -7,12 +7,14 @@ class Board:
                  display: pygame.Surface,
                  puzzle: "list of lists",
                  font: pygame.font.Font,
+                 display_color: "RGB tuple",
                  line_color: "RGB tuple",
                  selection_color: "RGB tuple",
                  text_color: "RGB tuple"):
         self.display = display
         self.puzzle = puzzle
         self.font = font
+        self.display_color = display_color
         self.line_color = line_color
         self.selection_color = selection_color
         self.text_color = text_color
@@ -22,6 +24,7 @@ class Board:
 
     def draw(self):
         horizontal, vertical = self.display.get_size()
+        self.display.fill(self.display_color)
         for n in range(9 + 1):
             start_horizontal = (0, n * vertical / 9)
             end_horizontal = (horizontal, n * vertical / 9)
@@ -42,12 +45,26 @@ class Board:
                              start_vertical, end_vertical,
                              line_width)
         # show status of the squares
-        for i in range(len(self.puzzle)):
-            for j in range(len(self.puzzle[0])):
+        for i in range(len(self.squares)):
+            for j in range(len(self.squares[0])):
                 self.squares[i][j].draw_status(self.display,
                                                self.font,
                                                self.selection_color,
                                                self.text_color)
+
+    def select_square(self, mouse_pos):
+        horizontal, vertical = self.display.get_size()
+        if mouse_pos[0] >= horizontal or mouse_pos[1] >= vertical:
+            return None
+
+        square_width, square_height = horizontal / 9, vertical / 9
+        coord = (int(mouse_pos[0] // square_width),
+                 int(mouse_pos[1] // square_height))
+        self.squares[coord[1]][coord[0]].is_selected = True
+        return coord
+
+    def place_value(self, coord, value):
+        self.squares[coord[1]][coord[0]].value = value
 
 
 class Square:
@@ -75,5 +92,5 @@ class Square:
         # Overlay a rectangle if selected
         if self.is_selected:
             rect = topleft_vertex + (horizontal / 9, vertical / 9)
-            width = 4
-            pygame.draw.rect(display, selection_color, rect, width)
+            line_width = 4
+            pygame.draw.rect(display, selection_color, rect, line_width)
