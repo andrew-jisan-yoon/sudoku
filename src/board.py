@@ -18,7 +18,7 @@ class Board:
         self.display_color = display_color
         self.line_color = line_color
         self.selection_color = selection_color
-        self.init_text_clor = init_text_color
+        self.init_text_color = init_text_color
         self.input_text_color = input_text_color
         self.squares = [[Square((i, j), self.puzzle[i][j])
                         for i in range(len(self.puzzle))]
@@ -52,7 +52,8 @@ class Board:
                 self.squares[i][j].draw_status(self.display,
                                                self.font,
                                                self.selection_color,
-                                               self.text_color)
+                                               self.init_text_color,
+                                               self.input_text_color)
 
     def select_square(self, mouse_pos):
         horizontal, vertical = self.display.get_size()
@@ -62,29 +63,40 @@ class Board:
         square_width, square_height = horizontal / 9, vertical / 9
         coord = (int(mouse_pos[0] // square_width),
                  int(mouse_pos[1] // square_height))
+        if not hasattr(self.squares[coord[1]][coord[0]], 'is_selected'):
+            return None
         self.squares[coord[1]][coord[0]].is_selected = True
         return coord
 
     def place_value(self, coord, value):
-        self.squares[coord[1]][coord[0]].value = value
+        self.squares[coord[1]][coord[0]].input_value = value
 
 
 class Square:
     def __init__(self,
                  coord: "coordinates by indices",
-                 value: int):
+                 init_value: int):
         self.coord = coord
-        self.value = value
+        self.init_value = init_value
+        self.input_value = 0
         self.is_selected = False
 
-    def draw_status(self, display, font, selection_color, text_color):
+    def draw_status(self, display, font,
+                    selection_color, init_text_color, input_text_color):
         horizontal, vertical = display.get_size()
         topleft_vertex = (self.coord[0] * horizontal / 9,
                           self.coord[1] * vertical / 9)
 
         # Draw the value at the center
-        if self.value != 0:
-            text = font.render(str(self.value), True, text_color)
+        if self.init_value == 0 and self.input_value == 0:
+            pass
+        else:
+            if self.init_value != 0:
+                text = font.render(str(self.init_value), True,
+                                   init_text_color)
+            else:
+                text = font.render(str(self.input_value), True,
+                                   input_text_color)
             text_location = (topleft_vertex[0] +
                              horizontal / 9 / 2 - text.get_width() / 2,
                              topleft_vertex[1] +
@@ -92,7 +104,7 @@ class Square:
             display.blit(text, text_location)
 
         # Overlay a rectangle if selected
-        if self.is_selected:
+        if self.init_value == 0 and self.is_selected:
             rect = topleft_vertex + (horizontal / 9, vertical / 9)
             line_width = 4
             pygame.draw.rect(display, selection_color, rect, line_width)
