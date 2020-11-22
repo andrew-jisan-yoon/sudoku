@@ -20,11 +20,11 @@ def main():
                   init_text_color, input_text_color)
 
     # Running the game
-    status = {"key": None, "selected": None}
+    io_status = {"key": None, "selected": None}
     while True:
         for event in pygame.event.get():
-            status = event_response(board, status, event)
-        board.draw()
+            status = event_response(board, io_status, event)
+        board.draw(io_status)
         pygame.display.update()
 
 

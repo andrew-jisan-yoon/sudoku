@@ -41,7 +41,7 @@ def valid(board, value, location):
     return True
 
 
-def event_response(board, status, event):
+def event_response(board, io_status, event):
     if event.type == pygame.QUIT:
         pygame.quit()
         sys.exit()
@@ -49,29 +49,29 @@ def event_response(board, status, event):
     # ======= Keyboard input ====
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_1:
-            status['key'] = 1
+            io_status['key'] = 1
         if event.key == pygame.K_2:
-            status['key'] = 2
+            io_status['key'] = 2
         if event.key == pygame.K_3:
-            status['key'] = 3
+            io_status['key'] = 3
         if event.key == pygame.K_4:
-            status['key'] = 4
+            io_status['key'] = 4
         if event.key == pygame.K_5:
-            status['key'] = 5
+            io_status['key'] = 5
         if event.key == pygame.K_6:
-            status['key'] = 6
+            io_status['key'] = 6
         if event.key == pygame.K_7:
-            status['key'] = 7
+            io_status['key'] = 7
         if event.key == pygame.K_8:
-            status['key'] = 8
+            io_status['key'] = 8
         if event.key == pygame.K_9:
-            status['key'] = 9
+            io_status['key'] = 9
 
         if event.key == pygame.K_RETURN:
-            if not status['selected']:
+            if not io_status['selected']:
                 pass
             else:
-                board.place_value(status['selected'], status['key'])
+                board.place_value(io_status['selected'], io_status['key'])
 
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
@@ -81,8 +81,8 @@ def event_response(board, status, event):
                 board.squares[i][j].is_selected = False
 
         mouse_pos = pygame.mouse.get_pos()
-        status['selected'] = board.select_square(mouse_pos)
-        if status['selected']:
-            status['key'] = None  # initializes the key value
+        io_status['selected'] = board.select_square(mouse_pos)
+        if io_status['selected']:
+            io_status['key'] = None  # initializes the key value
 
-    return status
+    return io_status

@@ -26,7 +26,7 @@ class Board:
                         for i in range(len(self.puzzle))]
                         for j in range(len(self.puzzle[0]))]
 
-    def draw(self):
+    def draw(self, io_status):
         horizontal, vertical = self.display.get_size()
         self.display.fill(self.display_color)
         for n in range(9 + 1):
