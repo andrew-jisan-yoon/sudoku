@@ -74,6 +74,7 @@ class Board:
         selected_square = self.squares[coord[1]][coord[0]]
         if selected_square.init_value == 0:
             selected_square.input_value = value
+            selected_square.is_selected = False
 
 
 class Square:
