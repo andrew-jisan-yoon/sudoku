@@ -9,12 +9,13 @@ pygame.init()
 
 def main():
     display = pygame.display.set_mode(display_size)
-    text_font = pygame.font.SysFont(font_name, font_size)
+    init_text_font = pygame.font.SysFont(font_name, font_size, bold=True)
+    input_text_font = pygame.font.SysFont(font_name, font_size, italic=True)
     pygame.display.set_caption("Sudoku")
     puzzle = json.load(open("puzzle/00.json", "r"))
 
     # Drawing the board
-    board = Board(display, puzzle, text_font,
+    board = Board(display, puzzle, init_text_font, input_text_font,
                   display_color, line_color, selection_color,
                   init_text_color, input_text_color)
 

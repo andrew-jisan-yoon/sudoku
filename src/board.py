@@ -6,7 +6,8 @@ class Board:
     def __init__(self,
                  display: pygame.Surface,
                  puzzle: "list of lists",
-                 font: pygame.font.Font,
+                 init_text_font: pygame.font.Font,
+                 input_text_font: pygame.font.Font,
                  display_color: "RGB tuple",
                  line_color: "RGB tuple",
                  selection_color: "RGB tuple",
@@ -14,7 +15,8 @@ class Board:
                  input_text_color: "RGB tuple"):
         self.display = display
         self.puzzle = puzzle
-        self.font = font
+        self.init_text_font = init_text_font
+        self.input_text_font = input_text_font
         self.display_color = display_color
         self.line_color = line_color
         self.selection_color = selection_color
@@ -50,7 +52,8 @@ class Board:
         for i in range(len(self.squares)):
             for j in range(len(self.squares[0])):
                 self.squares[i][j].draw_status(self.display,
-                                               self.font,
+                                               self.init_text_font,
+                                               self.input_text_font,
                                                self.selection_color,
                                                self.init_text_color,
                                                self.input_text_color)
@@ -81,7 +84,7 @@ class Square:
         self.input_value = 0
         self.is_selected = False
 
-    def draw_status(self, display, font,
+    def draw_status(self, display, init_text_font, input_text_font,
                     selection_color, init_text_color, input_text_color):
         horizontal, vertical = display.get_size()
         topleft_vertex = (self.coord[0] * horizontal / 9,
@@ -92,11 +95,11 @@ class Square:
             pass
         else:
             if self.init_value != 0:
-                text = font.render(str(self.init_value), True,
-                                   init_text_color)
+                text = init_text_font.render(str(self.init_value), True,
+                                             init_text_color)
             else:
-                text = font.render(str(self.input_value), True,
-                                   input_text_color)
+                text = input_text_font.render(str(self.input_value), True,
+                                              input_text_color)
             text_location = (topleft_vertex[0] +
                              horizontal / 9 / 2 - text.get_width() / 2,
                              topleft_vertex[1] +
