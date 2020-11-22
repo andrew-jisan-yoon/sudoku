@@ -52,6 +52,7 @@ class Board:
         for i in range(len(self.squares)):
             for j in range(len(self.squares[0])):
                 self.squares[i][j].draw_status(self.display,
+                                               io_status,
                                                self.init_text_font,
                                                self.input_text_font,
                                                self.selection_color,
@@ -84,7 +85,8 @@ class Square:
         self.input_value = None
         self.is_selected = False
 
-    def draw_status(self, display, init_text_font, input_text_font,
+    def draw_status(self, display, io_status,
+                    init_text_font, input_text_font,
                     selection_color, init_text_color, input_text_color):
         horizontal, vertical = display.get_size()
         topleft_vertex = (self.coord[0] * horizontal / 9,
@@ -110,3 +112,9 @@ class Square:
             rect = topleft_vertex + (horizontal / 9, vertical / 9)
             line_width = 4
             pygame.draw.rect(display, selection_color, rect, line_width)
+            # Draw the key input if applicable
+            if io_status['key']:
+                text = input_text_font.render(str(io_status['key']), True,
+                                              input_text_color)
+                text_location = (topleft_vertex[0] + 2, topleft_vertex[1] + 2)
+                display.blit(text, text_location)

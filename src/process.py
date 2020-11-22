@@ -68,10 +68,9 @@ def event_response(board, io_status, event):
             io_status['key'] = 9
 
         if event.key == pygame.K_RETURN:
-            if not io_status['selected']:
-                pass
-            else:
+            if io_status['selected']:
                 board.place_value(io_status['selected'], io_status['key'])
+                io_status['selected'], io_status['key'] = None, None
 
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
