@@ -9,7 +9,8 @@ font_size = 30
 display_size = (600, 600)
 display_color = (255, 255, 255)  # white in RGB sequence
 line_color = (0, 0, 0)  # black in RGB sequence
-text_color = (0, 0, 0)  # black in RGB sequence
+init_text_color = (0, 0, 255)  # blue in RGB sequence
+input_text_color = (0, 0, 0)  # black in RGB sequence
 selection_color = (0, 0, 255)  # blue in RGB sequence
 
 # Params used in definition of Sudoku

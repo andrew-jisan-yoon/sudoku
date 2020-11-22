@@ -15,7 +15,8 @@ def main():
 
     # Drawing the board
     board = Board(display, puzzle, text_font,
-                  display_color, line_color, selection_color, text_color)
+                  display_color, line_color, selection_color,
+                  init_text_color, input_text_color)
 
     # Running the game
     status = {"key": None, "selected": None}
