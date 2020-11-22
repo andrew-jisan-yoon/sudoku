@@ -10,14 +10,16 @@ class Board:
                  display_color: "RGB tuple",
                  line_color: "RGB tuple",
                  selection_color: "RGB tuple",
-                 text_color: "RGB tuple"):
+                 init_text_color: "RGB tuple",
+                 input_text_color: "RGB tuple"):
         self.display = display
         self.puzzle = puzzle
         self.font = font
         self.display_color = display_color
         self.line_color = line_color
         self.selection_color = selection_color
-        self.text_color = text_color
+        self.init_text_clor = init_text_color
+        self.input_text_color = input_text_color
         self.squares = [[Square((i, j), self.puzzle[i][j])
                         for i in range(len(self.puzzle))]
                         for j in range(len(self.puzzle[0]))]
