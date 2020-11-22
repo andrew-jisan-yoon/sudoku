@@ -63,13 +63,13 @@ class Board:
         square_width, square_height = horizontal / 9, vertical / 9
         coord = (int(mouse_pos[0] // square_width),
                  int(mouse_pos[1] // square_height))
-        if not hasattr(self.squares[coord[1]][coord[0]], 'is_selected'):
-            return None
         self.squares[coord[1]][coord[0]].is_selected = True
         return coord
 
     def place_value(self, coord, value):
-        self.squares[coord[1]][coord[0]].input_value = value
+        selected_square = self.squares[coord[1]][coord[0]]
+        if selected_square.init_value == 0:
+            selected_square.input_value = value
 
 
 class Square:
