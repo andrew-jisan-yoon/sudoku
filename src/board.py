@@ -81,7 +81,8 @@ class Square:
                  init_value: int):
         self.coord = coord
         self.init_value = init_value
-        self.input_value = 0
+        self.input_value = None
+        self.displayed_value = None
         self.is_selected = False
 
     def draw_status(self, display, init_text_font, input_text_font,
@@ -91,7 +92,7 @@ class Square:
                           self.coord[1] * vertical / 9)
 
         # Draw the value at the center
-        if self.init_value == 0 and self.input_value == 0:
+        if self.init_value == 0 and self.input_value is None:
             pass
         else:
             if self.init_value != 0:
