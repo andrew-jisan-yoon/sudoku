@@ -1,11 +1,13 @@
 import pygame
+import json
+import os
+import random
 
 
 class Board:
 
     def __init__(self,
                  display: pygame.Surface,
-                 puzzle: "list of lists",
                  init_text_font: pygame.font.Font,
                  input_text_font: pygame.font.Font,
                  display_color: "RGB tuple",
@@ -14,7 +16,6 @@ class Board:
                  init_text_color: "RGB tuple",
                  input_text_color: "RGB tuple"):
         self.display = display
-        self.puzzle = puzzle
         self.init_text_font = init_text_font
         self.input_text_font = input_text_font
         self.display_color = display_color
@@ -22,9 +23,18 @@ class Board:
         self.selection_color = selection_color
         self.init_text_color = init_text_color
         self.input_text_color = input_text_color
+
+        self.puzzle = None
+        self.set_puzzle()
         self.squares = [[Square((i, j), self.puzzle[i][j])
                         for i in range(len(self.puzzle))]
                         for j in range(len(self.puzzle[0]))]
+
+    def set_puzzle(self):
+        puzzle_dir = "puzzle/"
+        puzzle_json = random.choice(os.listdir(puzzle_dir))
+        puzzle = json.load(open(puzzle_dir + puzzle_json, "r"))
+        self.puzzle = puzzle
 
     def draw(self, io_status):
         horizontal, vertical = self.display.get_size()
