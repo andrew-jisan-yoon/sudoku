@@ -2,11 +2,12 @@ import pytest
 from src.board import *
 from param import *
 
+pygame.init()
+
 
 @pytest.fixture
 def board():
     """Returns a Board instance"""
-    pygame.init()
     display = pygame.display.set_mode(display_size)
     init_text_font = pygame.font.SysFont(font_name, font_size, bold=True)
     input_text_font = pygame.font.SysFont(font_name, font_size, italic=True)
