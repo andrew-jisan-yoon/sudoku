@@ -17,9 +17,16 @@ def board():
     return board
 
 
-def test_setting_class_attr(board):
+@pytest.mark.parametrize("mouse_pos,expected", [
+    ((300, 300), coord),
+    ((900, 900), None)
+])
+def test_select_square(board):
     pass
 
 
-def test_draw(board):
+@pytest.mark.parametrize("coord,value,expected", [
+    (, ,)
+])
+def test_place_value(board):
     pass
