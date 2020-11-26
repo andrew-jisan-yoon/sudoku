@@ -1,6 +1,6 @@
 import pygame
 import json
-import os
+from pathlib import Path
 import random
 
 
@@ -31,9 +31,9 @@ class Board:
                         for j in range(len(self.puzzle[0]))]
 
     def set_puzzle(self):
-        puzzle_dir = "puzzle/"
-        puzzle_json = random.choice(os.listdir(puzzle_dir))
-        puzzle = json.load(open(puzzle_dir + puzzle_json, "r"))
+        puzzle_dir = Path(__file__).parent.parent / 'puzzle/'
+        json_path = random.choice(list(puzzle_dir.rglob('*.json')))
+        puzzle = json.load(json_path.open())
         self.puzzle = puzzle
 
     def draw(self, io_status):
