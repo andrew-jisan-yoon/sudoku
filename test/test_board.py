@@ -18,15 +18,15 @@ def board():
 
 
 @pytest.mark.parametrize("mouse_pos,expected", [
-    ((300, 300), coord),
-    ((900, 900), None)
+    ((display_size[0] // 2, display_size[1] // 2), (5, 5)),
+    ((display_size[0] * 2, display_size[1] * 2), None)
 ])
-def test_select_square(board):
+def test_select_square(board, mouse_pos, expected):
     pass
 
 
-@pytest.mark.parametrize("coord,value,expected", [
-    (, ,)
-])
+# @pytest.mark.parametrize("coord,value,expected", [
+#     ((5, 5), ,)
+# ])
 def test_place_value(board):
     pass
