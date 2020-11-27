@@ -22,7 +22,8 @@ def board():
     ((display_size[0] * 2, display_size[1] * 2), None)
 ])
 def test_select_square(board, mouse_pos, expected):
-    pass
+    result = board.select_square(mouse_pos)
+    assert result == expected
 
 
 # @pytest.mark.parametrize("coord,value,expected", [
