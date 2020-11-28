@@ -8,12 +8,8 @@ pygame.init()
 
 class Board:
     display_size = (600, 600)
-    init_text_font = pygame.font.SysFont('arial', 40, bold=True)
-    input_text_font = pygame.font.SysFont('arial', 30, italic=True)
     background_color = pygame.Color('white')
     line_color = pygame.Color('black')
-    init_text_color = pygame.Color('blue')
-    input_text_color = pygame.Color('black')
 
     def __init__(self, puzzle: "list of lists"):
         self.puzzle = [[Square((i, j), puzzle[i][j])
@@ -47,12 +43,7 @@ class Board:
         # show status of the squares
         for i in range(len(self.puzzle)):
             for j in range(len(self.puzzle[0])):
-                self.puzzle[i][j].draw_status(self.display,
-                                              io_status,
-                                              self.init_text_font,
-                                              self.input_text_font,
-                                              self.init_text_color,
-                                              self.input_text_color)
+                self.puzzle[i][j].draw_status(self.display, io_status)
         pygame.display.update()
 
     def select_square(self, mouse_pos):
@@ -74,6 +65,10 @@ class Board:
 
 
 class Square:
+    init_text_font = pygame.font.SysFont('arial', 40, bold=True)
+    input_text_font = pygame.font.SysFont('arial', 30, italic=True)
+    init_text_color = pygame.Color('blue')
+    input_text_color = pygame.Color('black')
     selection_color = pygame.Color('blue')
 
     def __init__(self,
@@ -84,9 +79,7 @@ class Square:
         self.input_value = None
         self.is_selected = False
 
-    def draw_status(self, display, io_status,
-                    init_text_font, input_text_font,
-                    init_text_color, input_text_color):
+    def draw_status(self, display, io_status):
         horizontal, vertical = display.get_size()
         topleft_vertex = (self.coord[0] * horizontal / 9,
                           self.coord[1] * vertical / 9)
@@ -94,11 +87,11 @@ class Square:
         # Draw the value at the center
         text = None
         if self.init_value != 0:
-            text = init_text_font.render(str(self.init_value), True,
-                                         init_text_color)
+            text = self.init_text_font.render(str(self.init_value), True,
+                                              self.init_text_color)
         elif self.input_value is not None:
-            text = input_text_font.render(str(self.input_value), True,
-                                          input_text_color)
+            text = self.input_text_font.render(str(self.input_value), True,
+                                               self.input_text_color)
         if text:
             text_location = (topleft_vertex[0] +
                              horizontal / 9 / 2 - text.get_width() / 2,
@@ -114,6 +107,6 @@ class Square:
             # Draw the key input if applicable
             if io_status['key']:
                 text = input_text_font.render(str(io_status['key']), True,
-                                              input_text_color)
+                                              self.input_text_color)
                 text_location = (topleft_vertex[0] + 2, topleft_vertex[1] + 2)
                 display.blit(text, text_location)
