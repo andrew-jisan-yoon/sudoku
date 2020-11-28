@@ -1,7 +1,4 @@
 import pygame
-import json
-from pathlib import Path
-import random
 
 pygame.init()
 
@@ -13,8 +10,8 @@ class Board:
 
     def __init__(self, puzzle: "2d list of ints"):
         self.puzzle = [[Square((i, j), puzzle[i][j])
-                        for i in range(len(puzzle))]
-                       for j in range(len(puzzle[0]))]
+                        for j in range(len(puzzle[0]))]
+                       for i in range(len(puzzle))]
         self.display = pygame.display.set_mode(self.display_size)
         pygame.display.set_caption("Sudoku")
 
@@ -24,13 +21,17 @@ class Board:
         :param io_status: a dict obj representing inputs
         """
         horizontal, vertical = self.display_size
-        self.display.fill(self.display_color)
-        for n in range(9 + 1):
-            start_horizontal = (0, n * vertical / 9)
-            end_horizontal = (horizontal, n * vertical / 9)
+        square_width = horizontal / len(self.puzzle[0])
+        square_height = vertical / len(self.puzzle)
 
-            start_vertical = (n * horizontal / 9, 0)
-            end_vertical = (n * horizontal / 9, vertical)
+        self.display.fill(self.display_color)
+
+        for n in range(9 + 1):
+            start_horizontal = (0, n * square_height)
+            end_horizontal = (horizontal, n * square_height)
+
+            start_vertical = (n * square_width, 0)
+            end_vertical = (n * square_width, vertical)
 
             if n % 3 == 0:
                 line_width = 3  # to distinguish 3x3 subgrids
@@ -44,10 +45,12 @@ class Board:
             pygame.draw.line(self.display, self.line_color,
                              start_vertical, end_vertical,
                              line_width)
+
         # show status of the squares
-        for i in range(len(self.puzzle)):
-            for j in range(len(self.puzzle[0])):
+        for j in range(len(self.puzzle[0])):
+            for i in range(len(self.puzzle)):
                 self.puzzle[i][j].draw_status(self.display, io_status)
+
         pygame.display.update()
 
     def select_square(self, mouse_pos):
@@ -60,9 +63,12 @@ class Board:
         if mouse_pos[0] >= horizontal or mouse_pos[1] >= vertical:
             return None
 
-        square_width, square_height = horizontal / 9, vertical / 9
+        square_width = horizontal / len(self.puzzle[0])
+        square_height = vertical / len(self.puzzle)
+
         coord = (int(mouse_pos[0] // square_width),
                  int(mouse_pos[1] // square_height))
+
         self.puzzle[coord[1]][coord[0]].is_selected = True
         return coord
 
