@@ -26,16 +26,16 @@ class Board:
 
         self.puzzle = None
 
-    def set_puzzle(puzzle_id=None):
+    def set_puzzle(self, puzzle_id=None):
         puzzle_dir = Path(__file__).parent.parent / 'puzzle/'
         if puzzle_id:
             json_path = puzzle_dir / f'{puzzle_id}.json'
         else:
             json_path = random.choice(list(puzzle_dir.rglob('*.json')))
         puzzle = json.load(json_path.open())
-        self.puzzle = [[Square((i, j), self.puzzle[i][j])
-                        for i in range(len(self.puzzle))]
-                       for j in range(len(self.puzzle[0]))]
+        self.puzzle = [[Square((i, j), puzzle[i][j])
+                        for i in range(len(puzzle))]
+                       for j in range(len(puzzle[0]))]
 
     def draw(self, io_status):
         horizontal, vertical = self.display.get_size()
@@ -60,9 +60,9 @@ class Board:
                              start_vertical, end_vertical,
                              line_width)
         # show status of the squares
-        for i in range(len(self.squares)):
-            for j in range(len(self.squares[0])):
-                self.squares[i][j].draw_status(self.display,
+        for i in range(len(self.puzzle)):
+            for j in range(len(self.puzzle[0])):
+                self.puzzle[i][j].draw_status(self.display,
                                                io_status,
                                                self.init_text_font,
                                                self.input_text_font,
@@ -78,11 +78,11 @@ class Board:
         square_width, square_height = horizontal / 9, vertical / 9
         coord = (int(mouse_pos[0] // square_width),
                  int(mouse_pos[1] // square_height))
-        self.squares[coord[1]][coord[0]].is_selected = True
+        self.puzzle[coord[1]][coord[0]].is_selected = True
         return coord
 
     def place_value(self, coord, value):
-        selected_square = self.squares[coord[1]][coord[0]]
+        selected_square = self.puzzle[coord[1]][coord[0]]
         if selected_square.init_value == 0:
             selected_square.input_value = value
             selected_square.is_selected = False

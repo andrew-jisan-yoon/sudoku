@@ -38,7 +38,7 @@ def event_response(board, io_status, event):
         # Deselect all squares first
         for i in range(9):
             for j in range(9):
-                board.squares[i][j].is_selected = False
+                board.puzzle[i][j].is_selected = False
 
         mouse_pos = pygame.mouse.get_pos()
         io_status['selected'] = board.select_square(mouse_pos)
