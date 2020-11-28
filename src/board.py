@@ -63,12 +63,12 @@ class Board:
         for i in range(len(self.puzzle)):
             for j in range(len(self.puzzle[0])):
                 self.puzzle[i][j].draw_status(self.display,
-                                               io_status,
-                                               self.init_text_font,
-                                               self.input_text_font,
-                                               self.selection_color,
-                                               self.init_text_color,
-                                               self.input_text_color)
+                                              io_status,
+                                              self.init_text_font,
+                                              self.input_text_font,
+                                              self.selection_color,
+                                              self.init_text_color,
+                                              self.input_text_color)
 
     def select_square(self, mouse_pos):
         horizontal, vertical = self.display.get_size()
