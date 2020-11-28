@@ -14,7 +14,6 @@ class Board:
     line_color = pygame.Color('black')
     init_text_color = pygame.Color('blue')
     input_text_color = pygame.Color('black')
-    selection_color = pygame.Color('blue')
 
     def __init__(self, puzzle: "list of lists"):
         self.puzzle = [[Square((i, j), puzzle[i][j])
@@ -52,7 +51,6 @@ class Board:
                                               io_status,
                                               self.init_text_font,
                                               self.input_text_font,
-                                              self.selection_color,
                                               self.init_text_color,
                                               self.input_text_color)
         pygame.display.update()
@@ -76,6 +74,8 @@ class Board:
 
 
 class Square:
+    selection_color = pygame.Color('blue')
+
     def __init__(self,
                  coord: "coordinates by indices",
                  init_value: int):
@@ -86,7 +86,7 @@ class Square:
 
     def draw_status(self, display, io_status,
                     init_text_font, input_text_font,
-                    selection_color, init_text_color, input_text_color):
+                    init_text_color, input_text_color):
         horizontal, vertical = display.get_size()
         topleft_vertex = (self.coord[0] * horizontal / 9,
                           self.coord[1] * vertical / 9)
@@ -110,7 +110,7 @@ class Square:
         if self.init_value == 0 and self.is_selected:
             rect = topleft_vertex + (horizontal / 9, vertical / 9)
             line_width = 4
-            pygame.draw.rect(display, selection_color, rect, line_width)
+            pygame.draw.rect(display, self.selection_color, rect, line_width)
             # Draw the key input if applicable
             if io_status['key']:
                 text = input_text_font.render(str(io_status['key']), True,
