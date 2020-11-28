@@ -5,25 +5,16 @@ import random
 
 
 class Board:
+    display_size = (600, 600)
+    display_color = pygame.Color('white')
+    init_text_font = pygame.font.SysFont('arial', 40, bold=True)
+    input_text_font = pygame.font.SysFont('arial', 30, italic=True)
+    line_color = pygame.Color('black')
+    init_text_color = pygame.Color('blue')
+    input_text_color = pygame.Color('black')
+    selection_color = pygame.Color('blue')
 
-    def __init__(self,
-                 display: pygame.Surface,
-                 init_text_font: pygame.font.Font,
-                 input_text_font: pygame.font.Font,
-                 display_color: "RGB tuple",
-                 line_color: "RGB tuple",
-                 selection_color: "RGB tuple",
-                 init_text_color: "RGB tuple",
-                 input_text_color: "RGB tuple"):
-        self.display = display
-        self.init_text_font = init_text_font
-        self.input_text_font = input_text_font
-        self.display_color = display_color
-        self.line_color = line_color
-        self.selection_color = selection_color
-        self.init_text_color = init_text_color
-        self.input_text_color = input_text_color
-
+    def __init__(self, puzzle: "list of lists"):
         self.puzzle = None
 
     def set_puzzle(self, puzzle_id=None):
