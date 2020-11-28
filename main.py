@@ -1,5 +1,4 @@
 import pygame
-from param import *
 from src.board import *
 from src.process import *
 
