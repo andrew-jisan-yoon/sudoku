@@ -24,7 +24,7 @@ class Board:
         square_width = horizontal / len(self.puzzle[0])
         square_height = vertical / len(self.puzzle)
 
-        self.display.fill(self.display_color)
+        self.display.fill(self.background_color)
 
         for n in range(9 + 1):
             start_horizontal = (0, n * square_height)
