@@ -46,3 +46,10 @@ def event_response(board, io_status, event):
             io_status['key'] = None  # initializes the key value
 
     return io_status
+
+
+def autocomplete():
+    """
+    Autocompletes the Sudoku puzzle
+    """
+    pass
