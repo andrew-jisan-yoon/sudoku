@@ -2,7 +2,7 @@ import pygame
 import sys
 
 
-def set_puzzle(puzzle_id=None):
+def select_puzzle(puzzle_id=None):
     puzzle_dir = Path(__file__).parent.parent / 'puzzle/'
     if puzzle_id:
         json_path = puzzle_dir / f'{puzzle_id}.json'

@@ -12,7 +12,7 @@ def main():
     input_text_font = pygame.font.SysFont(font_name, font_size, italic=True)
     pygame.display.set_caption("Sudoku")
 
-    puzzle = set_puzzle()
+    puzzle = select_puzzle()
 
     # Drawing the board
     board = Board(display, puzzle,
