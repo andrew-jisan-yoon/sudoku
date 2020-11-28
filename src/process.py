@@ -9,6 +9,8 @@ def select_puzzle(puzzle_id=None):
     else:
         json_path = random.choice(list(puzzle_dir.rglob('*.json')))
     puzzle = json.load(json_path.open())
+    assert (len(puzzle) == 9) and (len(puzzle[0]) == 9),\
+        "puzzle is not a Sudoku."
     return puzzle
 
 

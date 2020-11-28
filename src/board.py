@@ -3,25 +3,28 @@ import json
 from pathlib import Path
 import random
 
+pygame.init()
+
 
 class Board:
     display_size = (600, 600)
-    display_color = pygame.Color('white')
     init_text_font = pygame.font.SysFont('arial', 40, bold=True)
     input_text_font = pygame.font.SysFont('arial', 30, italic=True)
+    background_color = pygame.Color('white')
     line_color = pygame.Color('black')
     init_text_color = pygame.Color('blue')
     input_text_color = pygame.Color('black')
     selection_color = pygame.Color('blue')
 
     def __init__(self, puzzle: "list of lists"):
-        assert (len(puzzle) == 9) and (len(puzzle[0]) == 9),
-        "puzzle is not a Sudoku"
-        self.puzzle = [[Square((i, j), puzzle[i][j]) for i in range(9)]
-                       for j in range(9)]
+        self.puzzle = [[Square((i, j), puzzle[i][j])
+                        for i in range(len(puzzle))]
+                       for j in range(len(puzzle[0]))]
+        self.display = pygame.display.set_mode(self.display_size)
+        pygame.display.set_caption("Sudoku")
 
     def draw(self, io_status):
-        horizontal, vertical = self.display.get_size()
+        horizontal, vertical = self.display_size
         self.display.fill(self.display_color)
         for n in range(9 + 1):
             start_horizontal = (0, n * vertical / 9)
@@ -52,9 +55,10 @@ class Board:
                                               self.selection_color,
                                               self.init_text_color,
                                               self.input_text_color)
+        pygame.display.update()
 
     def select_square(self, mouse_pos):
-        horizontal, vertical = self.display.get_size()
+        horizontal, vertical = self.display_size
         if mouse_pos[0] >= horizontal or mouse_pos[1] >= vertical:
             return None
 
