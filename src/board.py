@@ -15,18 +15,10 @@ class Board:
     selection_color = pygame.Color('blue')
 
     def __init__(self, puzzle: "list of lists"):
-        self.puzzle = None
-
-    def set_puzzle(self, puzzle_id=None):
-        puzzle_dir = Path(__file__).parent.parent / 'puzzle/'
-        if puzzle_id:
-            json_path = puzzle_dir / f'{puzzle_id}.json'
-        else:
-            json_path = random.choice(list(puzzle_dir.rglob('*.json')))
-        puzzle = json.load(json_path.open())
-        self.puzzle = [[Square((i, j), puzzle[i][j])
-                        for i in range(len(puzzle))]
-                       for j in range(len(puzzle[0]))]
+        assert (len(puzzle) == 9) and (len(puzzle[0]) == 9),
+        "puzzle is not a Sudoku"
+        self.puzzle = [[Square((i, j), puzzle[i][j]) for i in range(9)]
+                       for j in range(9)]
 
     def draw(self, io_status):
         horizontal, vertical = self.display.get_size()

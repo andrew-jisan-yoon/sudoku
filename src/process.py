@@ -2,6 +2,16 @@ import pygame
 import sys
 
 
+def select_puzzle(puzzle_id=None):
+    puzzle_dir = Path(__file__).parent.parent / 'puzzle/'
+    if puzzle_id:
+        json_path = puzzle_dir / f'{puzzle_id}.json'
+    else:
+        json_path = random.choice(list(puzzle_dir.rglob('*.json')))
+    puzzle = json.load(json_path.open())
+    return puzzle
+
+
 def event_response(board, io_status, event):
     if event.type == pygame.QUIT:
         pygame.quit()
