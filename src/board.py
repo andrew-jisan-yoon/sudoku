@@ -11,7 +11,7 @@ class Board:
     background_color = pygame.Color('white')
     line_color = pygame.Color('black')
 
-    def __init__(self, puzzle: "list of lists"):
+    def __init__(self, puzzle: "2d list of ints"):
         self.puzzle = [[Square((i, j), puzzle[i][j])
                         for i in range(len(puzzle))]
                        for j in range(len(puzzle[0]))]
@@ -19,6 +19,10 @@ class Board:
         pygame.display.set_caption("Sudoku")
 
     def draw(self, io_status):
+        """
+        Draws the Board status on display.
+        :param io_status: a dict obj representing inputs
+        """
         horizontal, vertical = self.display_size
         self.display.fill(self.display_color)
         for n in range(9 + 1):
@@ -47,6 +51,11 @@ class Board:
         pygame.display.update()
 
     def select_square(self, mouse_pos):
+        """
+        Returns the coordinates of the selected square if any.
+        :param mouse_pos: a tuple of ints showing mouse position
+        :return: a tuple of ints
+        """
         horizontal, vertical = self.display_size
         if mouse_pos[0] >= horizontal or mouse_pos[1] >= vertical:
             return None
@@ -58,6 +67,11 @@ class Board:
         return coord
 
     def place_value(self, coord, value):
+        """
+        Assigns the value to the selected square.
+        :param coord: a tuple of ints representing the square.
+        :param value: an int
+        """
         selected_square = self.puzzle[coord[1]][coord[0]]
         if selected_square.init_value == 0:
             selected_square.input_value = value
