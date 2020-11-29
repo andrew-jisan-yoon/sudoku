@@ -6,16 +6,15 @@ pygame.init()
 
 
 def main():
-    # Drawing the board
-    puzzle = select_puzzle()
-    board = Board(puzzle)
+    # Initiating the puzzle
+    puzzle = Puzzle()
 
     # Running the game
     io_status = {"key": None, "selected": None}
     while True:
         for event in pygame.event.get():
-            io_status = event_response(board, io_status, event)
-        board.draw(io_status)
+            io_status = event_response(puzzle, io_status, event)
+        puzzle.draw(io_status)
 
 
 if __name__ == "__main__":
