@@ -75,8 +75,12 @@ class Puzzle:
         xy_coord = (int(mouse_pos[0] // self.square_width),
                     int(mouse_pos[1] // self.square_height))
 
-        self.squares[xy_coord[1]][xy_coord[0]].is_selected = True
-        return xy_coord
+        selected = self.squares[xy_coord[1]][xy_coord[0]]
+        if selected.get_init() != 0:
+            return None
+        else:
+            selected.is_selected = True
+            return xy_coord
 
     def place_value(self, xy_coord, value):
         """
@@ -84,10 +88,10 @@ class Puzzle:
         :param coord: a tuple of ints representing the square.
         :param value: an int
         """
-        selected_square = self.squares[xy_coord[1]][xy_coord[0]]
-        if selected_square.get_init() == 0:
-            selected_square.user_input = value
-            selected_square.is_selected = False
+        subject = self.squares[xy_coord[1]][xy_coord[0]]
+        if subject.get_init() == 0:
+            subject.user_input = value
+            subject.is_selected = False
 
 
 class Square:
