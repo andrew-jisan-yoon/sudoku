@@ -1,5 +1,5 @@
 import pygame
-from src.board import *
+from src.puzzle import *
 from src.process import *
 
 pygame.init()

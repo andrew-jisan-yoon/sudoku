@@ -30,15 +30,15 @@ def event_response(puzzle, io_status, event):
 
         if event.key == pygame.K_RETURN:
             if io_status['selected']:
-                board.place_value(io_status['selected'], io_status['key'])
+                puzzle.place_value(io_status['selected'], io_status['key'])
                 io_status['selected'], io_status['key'] = None, None
 
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
         # Deselect all squares first
-        for i in range(len(puzzle.squares)):
-            for j in range(len(puzzle.squares[0])):
-                puzzle.squares[i][j].is_selected = False
+        for y in range(len(puzzle.squares)):
+            for x in range(len(puzzle.squares[0])):
+                puzzle.squares[y][x].is_selected = False
 
         mouse_pos = pygame.mouse.get_pos()
         io_status['selected'] = puzzle.select_square(mouse_pos)
