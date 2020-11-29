@@ -10,11 +10,21 @@ class Puzzle:
     display_size = (600, 600)
     background_color = pygame.Color('white')
     line_color = pygame.Color('black')
+    puzzle_dir = Path(__file__).parent.parent / 'puzzle/'
 
-    def __init__(self, puzzle: "2d list of ints"):
+    def __init__(self, puzzle_id=None):
+        if puzzle_id:
+            json_path = puzzle_dir / f'{puzzle_id}.json'
+        else:
+            json_path = random.choice(list(puzzle_dir.rglob('*.json')))
+        puzzle = json.load(json_path.open())
+
         self.puzzle = [[Square((i, j), puzzle[i][j])
                         for j in range(len(puzzle[0]))]
                        for i in range(len(puzzle))]
+        self.square_width = self.display_size[0] / len(puzzle[0])
+        self.square_height = self.display_size[1] / len(puzzle)
+
         self.display = pygame.display.set_mode(self.display_size)
         pygame.display.set_caption("Sudoku")
 
