@@ -136,9 +136,10 @@ class Square:
             rect = topleft_vertex + (self.width, self.height)
             line_width = 4
             pygame.draw.rect(display, self.selection_color, rect, line_width)
-            # Draw the key input if applicable
+            # Draw the user input if applicable
             if io_status['key']:
                 text = self.input_text_font.render(str(io_status['key']), True,
                                                    self.input_text_color)
-                text_location = (topleft_vertex[0] + 2, topleft_vertex[1] + 2)
+                text_location = (topleft_vertex[0] + text.get_width() / 2,
+                                 topleft_vertex[1] + text.get_height() / 2)
                 display.blit(text, text_location)
