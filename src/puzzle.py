@@ -19,11 +19,12 @@ class Puzzle:
             json_path = random.choice(list(self.puzzle_dir.rglob('*.json')))
         puzzle = json.load(json_path.open())
 
-        self.squares = [[Square((x, y), puzzle[y][x])
-                        for x in range(len(puzzle[0]))]
-                        for y in range(len(puzzle))]
         self.square_width = self.display_size[0] / len(puzzle[0])
         self.square_height = self.display_size[1] / len(puzzle)
+        self.squares = [[Square((x, y), self.square_width,
+                         self.square_height, puzzle[y][x])
+                        for x in range(len(puzzle[0]))]
+                        for y in range(len(puzzle))]
 
         self.display = pygame.display.set_mode(self.display_size)
         pygame.display.set_caption("Sudoku")
@@ -86,8 +87,8 @@ class Puzzle:
         :param value: an int
         """
         selected_square = self.squares[xy_coord[1]][xy_coord[0]]
-        if selected_square.init_value == 0:
-            selected_square.input_value = value
+        if selected_square.get_init() == 0:
+            selected_square.user_input = value
             selected_square.is_selected = False
 
 
@@ -99,36 +100,42 @@ class Square:
     selection_color = pygame.Color('blue')
 
     def __init__(self,
-                 xy_coord: "coordinates by indices",
+                 xy_coord: "xy-coordinates by indices",
+                 width, height,
                  init_value: int):
         self.xy_coord = xy_coord
-        self.init_value = init_value
-        self.input_value = None
+        self.width = width
+        self.height = height
+        self.__init_value = init_value
+        self.user_input = None
         self.is_selected = False
+
+    def get_init(self):
+        return self.__init_value
 
     def draw_status(self, display, io_status):
         horizontal, vertical = display.get_size()
-        topleft_vertex = (self.xy_coord[0] * horizontal / 9,
-                          self.xy_coord[1] * vertical / 9)
+        topleft_vertex = (self.xy_coord[0] * self.width,
+                          self.xy_coord[1] * self.height)
 
         # Draw the value at the center
         text = None
-        if self.init_value != 0:
-            text = self.init_text_font.render(str(self.init_value), True,
+        if self.__init_value != 0:
+            text = self.init_text_font.render(str(self.__init_value), True,
                                               self.init_text_color)
-        elif self.input_value is not None:
-            text = self.input_text_font.render(str(self.input_value), True,
+        elif self.user_input is not None:
+            text = self.input_text_font.render(str(self.user_input), True,
                                                self.input_text_color)
         if text:
             text_location = (topleft_vertex[0] +
-                             horizontal / 9 / 2 - text.get_width() / 2,
+                             self.width / 2 - text.get_width() / 2,
                              topleft_vertex[1] +
-                             vertical / 9 / 2 - text.get_height() / 2)
+                             self.height / 2 - text.get_height() / 2)
             display.blit(text, text_location)
 
         # Overlay a rectangle if selected
-        if self.init_value == 0 and self.is_selected:
-            rect = topleft_vertex + (horizontal / 9, vertical / 9)
+        if self.__init_value == 0 and self.is_selected:
+            rect = topleft_vertex + (self.width, self.height)
             line_width = 4
             pygame.draw.rect(display, self.selection_color, rect, line_width)
             # Draw the key input if applicable
