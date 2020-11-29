@@ -93,10 +93,11 @@ class Puzzle:
         :param coord: a tuple of ints representing the square.
         :param value: an int
         """
-        subject = self.squares[xy_coord[1]][xy_coord[0]]
-        if subject.get_init() == 0:
-            subject.user_input = value
-            subject.is_selected = False
+        if xy_coord:
+            subject = self.squares[xy_coord[1]][xy_coord[0]]
+            if subject.get_init() == 0:
+                subject.user_input = value
+                subject.is_selected = False
 
 
 class Square:

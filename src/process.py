@@ -29,9 +29,8 @@ def event_response(puzzle, io_status, event):
             io_status['key'] = 9
 
         if event.key == pygame.K_RETURN:
-            if io_status['selected']:
-                puzzle.place_value(io_status['selected'], io_status['key'])
-                io_status['selected'], io_status['key'] = None, None
+            puzzle.place_value(io_status['selected'], io_status['key'])
+            io_status['selected'], io_status['key'] = None, None
 
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
