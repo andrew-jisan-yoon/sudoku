@@ -1,9 +1,12 @@
 import pygame
+import json
+import random
+from pathlib import Path
 
 pygame.init()
 
 
-class Board:
+class Puzzle:
     display_size = (600, 600)
     background_color = pygame.Color('white')
     line_color = pygame.Color('black')

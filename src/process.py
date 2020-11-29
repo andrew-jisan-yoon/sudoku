@@ -1,8 +1,5 @@
 import pygame
 import sys
-import json
-import random
-from pathlib import Path
 
 
 def select_puzzle(puzzle_id=None):
