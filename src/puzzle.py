@@ -67,6 +67,11 @@ class Puzzle:
         :param mouse_pos: a tuple of ints showing mouse position
         :return: a tuple of ints
         """
+        # Deselect all squares first
+        for y in range(len(puzzle.squares)):
+            for x in range(len(puzzle.squares[0])):
+                self.squares[y][x].is_selected = False
+
         horizontal, vertical = self.display_size
         if (mouse_pos[0] >= self.display_size[0]) or\
            (mouse_pos[1] >= self.display_size[1]):

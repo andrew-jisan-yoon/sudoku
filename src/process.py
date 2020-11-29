@@ -35,11 +35,6 @@ def event_response(puzzle, io_status, event):
 
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
-        # Deselect all squares first
-        for y in range(len(puzzle.squares)):
-            for x in range(len(puzzle.squares[0])):
-                puzzle.squares[y][x].is_selected = False
-
         mouse_pos = pygame.mouse.get_pos()
         io_status['selected'] = puzzle.select_square(mouse_pos)
         if io_status['selected']:
