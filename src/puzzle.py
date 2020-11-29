@@ -10,7 +10,7 @@ class Puzzle:
     display_size = (600, 600)
     background_color = pygame.Color('white')
     line_color = pygame.Color('black')
-    puzzle_dir = Path(__file__).parent.parent / 'puzzle/'
+    puzzle_dir = Path(__file__).parent.parent / 'puzzle_db/'
 
     def __init__(self, puzzle_id=None):
         if puzzle_id:
@@ -19,9 +19,9 @@ class Puzzle:
             json_path = random.choice(list(puzzle_dir.rglob('*.json')))
         puzzle = json.load(json_path.open())
 
-        self.puzzle = [[Square((i, j), puzzle[i][j])
+        self.squares = [[Square((i, j), puzzle[i][j])
                         for j in range(len(puzzle[0]))]
-                       for i in range(len(puzzle))]
+                        for i in range(len(puzzle))]
         self.square_width = self.display_size[0] / len(puzzle[0])
         self.square_height = self.display_size[1] / len(puzzle)
 
@@ -33,10 +33,6 @@ class Puzzle:
         Draws the Board status on display.
         :param io_status: a dict obj representing inputs
         """
-        horizontal, vertical = self.display_size
-        square_width = horizontal / len(self.puzzle[0])
-        square_height = vertical / len(self.puzzle)
-
         self.display.fill(self.background_color)
 
         for n in range(9 + 1):
@@ -60,9 +56,9 @@ class Puzzle:
                              line_width)
 
         # show status of the squares
-        for j in range(len(self.puzzle[0])):
-            for i in range(len(self.puzzle)):
-                self.puzzle[i][j].draw_status(self.display, io_status)
+        for j in range(len(self.squares[0])):
+            for i in range(len(self.squares)):
+                self.squares[i][j].draw_status(self.display, io_status)
 
         pygame.display.update()
 
@@ -73,16 +69,15 @@ class Puzzle:
         :return: a tuple of ints
         """
         horizontal, vertical = self.display_size
-        if mouse_pos[0] >= horizontal or mouse_pos[1] >= vertical:
+        if (mouse_pos[0] >= self.display_size[0]) or\
+           (mouse_pos[1] >= self.display_size[1]):
             return None
 
-        square_width = horizontal / len(self.puzzle[0])
-        square_height = vertical / len(self.puzzle)
+        # formatting the coord into (row_idx, col_idx)
+        coord = (int(mouse_pos[1] // square_height),
+                 int(mouse_pos[0] // square_width))
 
-        coord = (int(mouse_pos[0] // square_width),
-                 int(mouse_pos[1] // square_height))
-
-        self.puzzle[coord[1]][coord[0]].is_selected = True
+        self.puzzle[coord[0]][coord[1]].is_selected = True
         return coord
 
     def place_value(self, coord, value):
@@ -91,7 +86,7 @@ class Puzzle:
         :param coord: a tuple of ints representing the square.
         :param value: an int
         """
-        selected_square = self.puzzle[coord[1]][coord[0]]
+        selected_square = self.squares[coord[0]][coord[1]]
         if selected_square.init_value == 0:
             selected_square.input_value = value
             selected_square.is_selected = False

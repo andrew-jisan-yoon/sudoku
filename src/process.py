@@ -2,7 +2,7 @@ import pygame
 import sys
 
 
-def event_response(board, io_status, event):
+def event_response(puzzle, io_status, event):
     if event.type == pygame.QUIT:
         pygame.quit()
         sys.exit()
@@ -36,12 +36,12 @@ def event_response(board, io_status, event):
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
         # Deselect all squares first
-        for i in range(9):
-            for j in range(9):
-                board.puzzle[i][j].is_selected = False
+        for i in range(len(puzzle.squares)):
+            for j in range(len(puzzle.squares[0])):
+                puzzle.squares[i][j].is_selected = False
 
         mouse_pos = pygame.mouse.get_pos()
-        io_status['selected'] = board.select_square(mouse_pos)
+        io_status['selected'] = puzzle.select_square(mouse_pos)
         if io_status['selected']:
             io_status['key'] = None  # initializes the key value
 
