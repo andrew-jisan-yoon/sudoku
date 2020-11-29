@@ -12,12 +12,10 @@ class Puzzle:
     line_color = pygame.Color('black')
     puzzle_dir = Path(__file__).parent.parent / 'puzzle_db/'
 
-    def __init__(self, puzzle_id=None):
-        if puzzle_id:
-            json_path = self.puzzle_dir / f'{puzzle_id}.json'
-        else:
+    def __init__(self, puzzle=None):
+        if puzzle is None:
             json_path = random.choice(list(self.puzzle_dir.rglob('*.json')))
-        puzzle = json.load(json_path.open())
+            puzzle = json.load(json_path.open())
 
         self.square_width = self.display_size[0] / len(puzzle[0])
         self.square_height = self.display_size[1] / len(puzzle)
