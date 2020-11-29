@@ -39,3 +39,7 @@ class TestPuzzle:
         puzzle = Puzzle(puzzle_json)
         puzzle.place_value(xy_coord, value)
         assert puzzle.squares[xy_coord[1]][xy_coord[0]].user_input == expected
+
+
+class TestSquare:
+    pass
