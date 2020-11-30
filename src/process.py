@@ -2,7 +2,7 @@ import pygame
 import sys
 
 
-def event_response(puzzle, io_status, event):
+def event_response(puzzle, key, event):
     if event.type == pygame.QUIT:
         pygame.quit()
         sys.exit()
@@ -10,36 +10,36 @@ def event_response(puzzle, io_status, event):
     # ======= Keyboard input ====
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_1:
-            io_status['key'] = 1
+            key = 1
         if event.key == pygame.K_2:
-            io_status['key'] = 2
+            key = 2
         if event.key == pygame.K_3:
-            io_status['key'] = 3
+            key = 3
         if event.key == pygame.K_4:
-            io_status['key'] = 4
+            key = 4
         if event.key == pygame.K_5:
-            io_status['key'] = 5
+            key = 5
         if event.key == pygame.K_6:
-            io_status['key'] = 6
+            key = 6
         if event.key == pygame.K_7:
-            io_status['key'] = 7
+            key = 7
         if event.key == pygame.K_8:
-            io_status['key'] = 8
+            key = 8
         if event.key == pygame.K_9:
-            io_status['key'] = 9
+            key = 9
 
         if event.key == pygame.K_RETURN:
-            puzzle.place_value(io_status['selected'], io_status['key'])
-            io_status['selected'], io_status['key'] = None, None
+            puzzle.place_value(key)
+            key = None
 
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
-        io_status['selected'] = puzzle.select_square(mouse_pos)
-        if io_status['selected']:
-            io_status['key'] = None  # initializes the key value
+        puzzle.select_square(mouse_pos)
+        if puzzle.selected:
+            key = None  # initializes the key value
 
-    return io_status
+    return key
 
 
 def autocomplete():

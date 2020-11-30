@@ -10,11 +10,11 @@ def main():
     puzzle = Puzzle()
 
     # Running the game
-    io_status = {"key": None, "selected": None}
+    key = None
     while True:
         for event in pygame.event.get():
-            io_status = event_response(puzzle, io_status, event)
-        puzzle.draw(io_status)
+            key = event_response(puzzle, key, event)
+        puzzle.draw(key)
 
 
 if __name__ == "__main__":

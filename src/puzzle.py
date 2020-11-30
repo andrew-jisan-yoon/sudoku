@@ -23,11 +23,12 @@ class Puzzle:
                          self.square_height, puzzle_json[y][x])
                         for x in range(len(puzzle_json[0]))]
                         for y in range(len(puzzle_json))]
+        self.selected = None
 
         self.display = pygame.display.set_mode(self.display_size)
         pygame.display.set_caption("Sudoku")
 
-    def draw(self, io_status):
+    def draw(self, key):
         """
         Draws the Board status on display.
         :param io_status: a dict obj representing inputs
@@ -57,7 +58,7 @@ class Puzzle:
         # show status of the squares
         for x in range(len(self.squares[0])):
             for y in range(len(self.squares)):
-                self.squares[y][x].draw_status(self.display, io_status)
+                self.squares[y][x].draw_status(self.display, key)
 
         pygame.display.update()
 
@@ -68,8 +69,9 @@ class Puzzle:
         :return: a tuple of ints
         """
         # Deselect all squares first
-        for y in range(len(puzzle.squares)):
-            for x in range(len(puzzle.squares[0])):
+        self.selected = None
+        for y in range(len(self.squares)):
+            for x in range(len(self.squares[0])):
                 self.squares[y][x].is_selected = False
 
         horizontal, vertical = self.display_size
@@ -80,24 +82,26 @@ class Puzzle:
         xy_coord = (int(mouse_pos[0] // self.square_width),
                     int(mouse_pos[1] // self.square_height))
 
-        selected = self.squares[xy_coord[1]][xy_coord[0]]
-        if selected.get_init() != 0:
+        subject = self.squares[xy_coord[1]][xy_coord[0]]
+        if subject.get_init() != 0:
             return None
         else:
-            selected.is_selected = True
+            self.selected = xy_coord
+            subject.is_selected = True
             return xy_coord
 
-    def place_value(self, xy_coord, value):
+    def place_value(self, value):
         """
         Assigns the value to the selected square.
         :param coord: a tuple of ints representing the square.
         :param value: an int
         """
-        if xy_coord:
-            subject = self.squares[xy_coord[1]][xy_coord[0]]
+        if self.selected:
+            subject = self.squares[self.selected[1]][self.selected[0]]
             if subject.get_init() == 0:
-                subject.user_input = value
+                subject.input_entered = value
                 subject.is_selected = False
+                self.selected = None
 
 
 class Square:
@@ -115,13 +119,13 @@ class Square:
         self.width = width
         self.height = height
         self.__init_value = init_value
-        self.user_input = None
+        self.input_entered = None
         self.is_selected = False
 
     def get_init(self):
         return self.__init_value
 
-    def draw_status(self, display, io_status):
+    def draw_status(self, display, key):
         horizontal, vertical = display.get_size()
         topleft_vertex = (self.xy_coord[0] * self.width,
                           self.xy_coord[1] * self.height)
@@ -131,8 +135,8 @@ class Square:
         if self.__init_value != 0:
             text = self.init_text_font.render(str(self.__init_value), True,
                                               self.init_text_color)
-        elif self.user_input is not None:
-            text = self.input_text_font.render(str(self.user_input), True,
+        elif self.__init_value == 0 and self.input_entered is not None:
+            text = self.input_text_font.render(str(self.input_entered), True,
                                                self.input_text_color)
         if text:
             text_location = (topleft_vertex[0] +
@@ -146,9 +150,9 @@ class Square:
             rect = topleft_vertex + (self.width, self.height)
             line_width = 4
             pygame.draw.rect(display, self.selection_color, rect, line_width)
-            # Draw the user input if applicable
-            if io_status['key']:
-                text = self.input_text_font.render(str(io_status['key']), True,
+            # Draw the temp input if applicable
+            if key:
+                text = self.input_text_font.render(str(key), True,
                                                    self.input_text_color)
                 text_location = (topleft_vertex[0] + text.get_width() / 2,
                                  topleft_vertex[1] + text.get_height() / 2)
