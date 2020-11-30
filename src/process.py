@@ -29,15 +29,12 @@ def event_response(puzzle, key, event):
             key = 9
 
         if event.key == pygame.K_RETURN:
-            puzzle.place_value(key)
-            key = None
+            key = puzzle.place_value(key)
 
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
-        puzzle.select_square(mouse_pos)
-        if puzzle.selected:
-            key = None  # initializes the key value
+        key = puzzle.select_square(mouse_pos, key)
 
     return key
 

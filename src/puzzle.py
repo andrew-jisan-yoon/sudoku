@@ -62,7 +62,7 @@ class Puzzle:
 
         pygame.display.update()
 
-    def select_square(self, mouse_pos):
+    def select_square(self, mouse_pos, key):
         """
         Returns the coordinates of the selected square if any.
         :param mouse_pos: a tuple of ints showing mouse position
@@ -74,21 +74,22 @@ class Puzzle:
             for x in range(len(self.squares[0])):
                 self.squares[y][x].is_selected = False
 
-        horizontal, vertical = self.display_size
-        if (mouse_pos[0] >= self.display_size[0]) or\
-           (mouse_pos[1] >= self.display_size[1]):
-            return None
-
         xy_coord = (int(mouse_pos[0] // self.square_width),
                     int(mouse_pos[1] // self.square_height))
 
+        horizontal, vertical = self.display_size
+        if (mouse_pos[0] >= self.display_size[0]) or\
+           (mouse_pos[1] >= self.display_size[1]):
+            return key
+
         subject = self.squares[xy_coord[1]][xy_coord[0]]
         if subject.get_init() != 0:
-            return None
-        else:
-            self.selected = xy_coord
-            subject.is_selected = True
-            return xy_coord
+            return key
+
+        self.selected = xy_coord
+        subject.is_selected = True
+        key = None
+        return key
 
     def place_value(self, value):
         """
@@ -102,6 +103,7 @@ class Puzzle:
                 subject.input_entered = value
                 subject.is_selected = False
                 self.selected = None
+        return None
 
 
 class Square:
