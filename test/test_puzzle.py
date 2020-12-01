@@ -26,8 +26,10 @@ class TestPuzzle:
     ])
     def test_place_value(self, puzzle_json, xy_coord, value, expected):
         puzzle = Puzzle(puzzle_json)
-        puzzle.place_value(xy_coord, value)
-        assert puzzle.squares[xy_coord[1]][xy_coord[0]].user_input == expected
+        puzzle.selected = xy_coord
+        puzzle.place_value(value)
+        selected = puzzle.squares[xy_coord[1]][xy_coord[0]]
+        assert selected.input_entered == expected
 
 
 class TestSquare:
