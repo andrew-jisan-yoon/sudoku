@@ -7,10 +7,12 @@ pygame.init()
 
 
 class Puzzle:
+    puzzle_dir = Path(__file__).parent.parent / 'puzzle_db/'
+
     display_size = (600, 600)
     background_color = pygame.Color('white')
     line_color = pygame.Color('black')
-    puzzle_dir = Path(__file__).parent.parent / 'puzzle_db/'
+    selection_color = pygame.Color('blue')
 
     def __init__(self, puzzle_json=None):
         if puzzle_json is None:
@@ -55,10 +57,27 @@ class Puzzle:
                              start_vertical, end_vertical,
                              line_width)
 
-        # show status of the squares
+        # draw text of the squares
         for x in range(len(self.squares[0])):
             for y in range(len(self.squares)):
-                self.squares[y][x].draw_status(self.display, key)
+                self.squares[y][x].draw_text(self.display)
+
+        # Overlay a rectangle on the selected square
+        if self.selected:
+            selected = self.squares[self.selected[1]][self.selected[0]]
+            topleft_vertex = (selected.xy_coord[0] * selected.width,
+                              selected.xy_coord[1] * selected.height)
+            rect = topleft_vertex + (selected.width, selected.height)
+            line_width = 4
+            pygame.draw.rect(self.display, self.selection_color,
+                             rect, line_width)
+            # Draw the temp input if applicable
+            if key:
+                text = selected.input_text_font.\
+                    render(str(key), True, selected.input_text_color)
+                text_location = (topleft_vertex[0] + text.get_width() / 2,
+                                 topleft_vertex[1] + text.get_height() / 2)
+                self.display.blit(text, text_location)
 
         pygame.display.update()
 
@@ -68,11 +87,8 @@ class Puzzle:
         :param mouse_pos: a tuple of ints showing mouse position
         :return: a tuple of ints
         """
-        # Deselect all squares first
+        # initialize self.selected first
         self.selected = None
-        for y in range(len(self.squares)):
-            for x in range(len(self.squares[0])):
-                self.squares[y][x].is_selected = False
 
         xy_coord = (int(mouse_pos[0] // self.square_width),
                     int(mouse_pos[1] // self.square_height))
@@ -87,7 +103,6 @@ class Puzzle:
             return None
 
         self.selected = xy_coord
-        subject.is_selected = True
         return None
 
     def place_value(self, value):
@@ -100,7 +115,6 @@ class Puzzle:
             subject = self.squares[self.selected[1]][self.selected[0]]
             if subject.get_init() == 0:
                 subject.input_entered = value
-                subject.is_selected = False
                 self.selected = None
         return None
 
@@ -110,7 +124,6 @@ class Square:
     input_text_font = pygame.font.SysFont('arial', 30, italic=True)
     init_text_color = pygame.Color('blue')
     input_text_color = pygame.Color('black')
-    selection_color = pygame.Color('blue')
 
     def __init__(self,
                  xy_coord: "xy-coordinates by indices",
@@ -121,12 +134,11 @@ class Square:
         self.height = height
         self.__init_value = init_value
         self.input_entered = None
-        self.is_selected = False
 
     def get_init(self):
         return self.__init_value
 
-    def draw_status(self, display, key):
+    def draw_text(self, display):
         horizontal, vertical = display.get_size()
         topleft_vertex = (self.xy_coord[0] * self.width,
                           self.xy_coord[1] * self.height)
@@ -145,16 +157,3 @@ class Square:
                              topleft_vertex[1] +
                              self.height / 2 - text.get_height() / 2)
             display.blit(text, text_location)
-
-        # Overlay a rectangle if selected
-        if self.__init_value == 0 and self.is_selected:
-            rect = topleft_vertex + (self.width, self.height)
-            line_width = 4
-            pygame.draw.rect(display, self.selection_color, rect, line_width)
-            # Draw the temp input if applicable
-            if key:
-                text = self.input_text_font.render(str(key), True,
-                                                   self.input_text_color)
-                text_location = (topleft_vertex[0] + text.get_width() / 2,
-                                 topleft_vertex[1] + text.get_height() / 2)
-                display.blit(text, text_location)
