@@ -34,7 +34,7 @@ def event_response(puzzle, key, event):
     # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
-        key = puzzle.select_square(mouse_pos, key)
+        key = puzzle.select_square(mouse_pos)
 
     return key
 
