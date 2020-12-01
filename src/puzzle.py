@@ -37,22 +37,22 @@ class Puzzle:
         """
         self.display.fill(self.background_color)
 
-        for n in range(9 + 1):
-            start_horizontal = (0, n * self.square_height)
-            end_horizontal = (self.display_size[0], n * self.square_height)
+        # Draw horizontal lines
+        for y in range(len(self.squares) + 1):
+            start_horizontal = (0, y * self.square_height)
+            end_horizontal = (self.display_size[0], y * self.square_height)
 
-            start_vertical = (n * self.square_width, 0)
-            end_vertical = (n * self.square_width, self.display_size[1])
-
-            if n % 3 == 0:
-                line_width = 3  # to distinguish 3x3 subgrids
-            else:
-                line_width = 1
-            # draw horiozntal lines
+            line_width = 3 if y % 3 == 0 else 1
             pygame.draw.line(self.display, self.line_color,
                              start_horizontal, end_horizontal,
                              line_width)
-            # draw vertical lines
+
+        # Draw vertical lines
+        for x in range(len(self.squares[0]) + 1):
+            start_vertical = (x * self.square_width, 0)
+            end_vertical = (x * self.square_width, self.display_size[1])
+
+            line_width = 3 if y % 3 == 0 else 1
             pygame.draw.line(self.display, self.line_color,
                              start_vertical, end_vertical,
                              line_width)
