@@ -11,7 +11,7 @@ def event_response(puzzle, key, event):
         mouse_pos = pygame.mouse.get_pos()
         key = puzzle.select_square(mouse_pos)
 
-    if event.type == pygame.KEYDOWN and puzzle.selected:
+    if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_RETURN:
             key = puzzle.place_value(key)
 
