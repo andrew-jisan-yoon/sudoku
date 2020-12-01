@@ -90,20 +90,14 @@ class Puzzle:
         # initialize self.selected first
         self.selected = None
 
+        horizontal, vertical = self.display_size
         xy_coord = (int(mouse_pos[0] // self.square_width),
                     int(mouse_pos[1] // self.square_height))
 
-        horizontal, vertical = self.display_size
-        if (mouse_pos[0] >= self.display_size[0]) or\
-           (mouse_pos[1] >= self.display_size[1]):
-            return None
-
-        subject = self.squares[xy_coord[1]][xy_coord[0]]
-        if subject.get_init() != 0:
-            return None
-
-        self.selected = xy_coord
-        return None
+        if mouse_pos[0] < horizontal and mouse_pos[1] < vertical:
+            subject = self.squares[xy_coord[1]][xy_coord[0]]
+            if subject.get_init() == 0:
+                self.selected = xy_coord
 
     def place_value(self, value):
         """
