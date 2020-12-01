@@ -109,8 +109,8 @@ class Puzzle:
             subject = self.squares[self.selected[1]][self.selected[0]]
             if subject.get_init() == 0:
                 subject.input_entered = value
+                # initializing self.selected
                 self.selected = None
-        return None
 
 
 class Square:
