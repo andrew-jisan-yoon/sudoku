@@ -7,34 +7,32 @@ def event_response(puzzle, key, event):
         pygame.quit()
         sys.exit()
 
-    # ======= Keyboard input ====
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_1:
-            key = 1
-        if event.key == pygame.K_2:
-            key = 2
-        if event.key == pygame.K_3:
-            key = 3
-        if event.key == pygame.K_4:
-            key = 4
-        if event.key == pygame.K_5:
-            key = 5
-        if event.key == pygame.K_6:
-            key = 6
-        if event.key == pygame.K_7:
-            key = 7
-        if event.key == pygame.K_8:
-            key = 8
-        if event.key == pygame.K_9:
-            key = 9
-
-        if event.key == pygame.K_RETURN:
-            key = puzzle.place_value(key)
-
-    # ======= Mouse input =======
     if event.type == pygame.MOUSEBUTTONDOWN:
         mouse_pos = pygame.mouse.get_pos()
         key = puzzle.select_square(mouse_pos)
+
+    if event.type == pygame.KEYDOWN and puzzle.selected:
+        if event.key == pygame.K_RETURN:
+            key = puzzle.place_value(key)
+
+        elif event.key == pygame.K_1:
+            key = 1
+        elif event.key == pygame.K_2:
+            key = 2
+        elif event.key == pygame.K_3:
+            key = 3
+        elif event.key == pygame.K_4:
+            key = 4
+        elif event.key == pygame.K_5:
+            key = 5
+        elif event.key == pygame.K_6:
+            key = 6
+        elif event.key == pygame.K_7:
+            key = 7
+        elif event.key == pygame.K_8:
+            key = 8
+        elif event.key == pygame.K_9:
+            key = 9
 
     return key
 
