@@ -6,20 +6,19 @@ pygame.init()
 
 class TestPuzzle:
 
-    @pytest.mark.parametrize("puzzle_json, mouse_pos, expected, is_selected", [
+    @pytest.mark.parametrize("puzzle_json, mouse_pos, expected", [
         ([[0]], (Puzzle.display_size[0] // 2, Puzzle.display_size[1] // 2),
-         (0, 0), True),
+         (0, 0)),
         ([[0]], (Puzzle.display_size[0] * 2, Puzzle.display_size[1] * 2),
-         None, False),
+         None),
         ([[9]], (Puzzle.display_size[0] // 2, Puzzle.display_size[1] // 2),
-         None, False)
+         None)
     ])
-    def test_select_square(self, puzzle_json, mouse_pos,
-                           expected, is_selected):
+    def test_select_square(self, puzzle_json, mouse_pos, expected):
         puzzle = Puzzle(puzzle_json)
-        result = puzzle.select_square(mouse_pos)
+        puzzle.select_square(mouse_pos)
+        result = puzzle.selected
         assert result == expected
-        assert puzzle.squares[0][0].is_selected == is_selected
 
     @pytest.mark.parametrize("puzzle_json, xy_coord, value, expected", [
          ([[0]], (0, 0), 1, 1),
