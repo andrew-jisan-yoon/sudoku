@@ -52,7 +52,7 @@ class Puzzle:
             start_vertical = (x * self.square_width, 0)
             end_vertical = (x * self.square_width, self.display_size[1])
 
-            line_width = 3 if y % 3 == 0 else 1
+            line_width = 3 if x % 3 == 0 else 1
             pygame.draw.line(self.display, self.line_color,
                              start_vertical, end_vertical,
                              line_width)
@@ -60,7 +60,7 @@ class Puzzle:
         # draw text of the squares
         for x in range(len(self.squares[0])):
             for y in range(len(self.squares)):
-                self.squares[y][x].draw_text(self.display)
+                self.squares[y][x].draw(self.display)
 
         # Overlay a rectangle on the selected square
         if self.selected:
@@ -132,7 +132,7 @@ class Square:
     def get_init(self):
         return self.__init_value
 
-    def draw_text(self, display):
+    def draw(self, display):
         horizontal, vertical = display.get_size()
         topleft_vertex = (self.xy_coord[0] * self.width,
                           self.xy_coord[1] * self.height)
