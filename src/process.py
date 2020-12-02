@@ -12,7 +12,10 @@ def event_response(puzzle, key, event):
         key = puzzle.select_square(mouse_pos)
 
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_RETURN:
+        if event.key == pygame.K_SPACE:
+            autocomplete()
+
+        elif event.key == pygame.K_RETURN:
             key = puzzle.place_value(key)
 
         elif event.key == pygame.K_1:
