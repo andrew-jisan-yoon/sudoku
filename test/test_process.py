@@ -29,3 +29,20 @@ def test_find_empty(puzzle_json, expected):
     puzzle = Puzzle(puzzle_json)
     result = find_empty(puzzle)
     assert result == expected
+
+
+@pytest.mark.parametrize("puzzle_json, xy_coord, input, expected", [
+    ([[5, 3, 0, 0, 7, 0, 0, 0, 0],
+     [6, 0, 0, 1, 9, 5, 0, 0, 0],
+     [0, 9, 8, 0, 0, 0, 0, 6, 0],
+     [8, 0, 0, 0, 6, 0, 0, 0, 3],
+     [4, 0, 0, 8, 0, 3, 0, 0, 1],
+     [7, 0, 0, 0, 2, 0, 0, 0, 6],
+     [0, 6, 0, 0, 0, 0, 2, 8, 0],
+     [0, 0, 0, 4, 1, 9, 0, 0, 5],
+     [0, 0, 0, 0, 8, 0, 0, 7, 9]], (4, 4), 6, True)
+])
+def test_is_valid(puzzle_json, xy_coord, input, expected):
+    puzzle = Puzzle(puzzle_json)
+    result = is_valid(puzzle, xy_coord, input)
+    assert result == expected
