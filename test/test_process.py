@@ -22,5 +22,10 @@ def test_autocomplete(puzzle_json, expected):
     assert result == expected
 
 
-def test_find_empty():
-    pass
+@pytest.mark.parametrize("puzzle_json, expected", [
+    ([[1, 0, 0], [2, 0, 7], [0, 6, 0]], (1, 0))
+])
+def test_find_empty(puzzle_json, expected):
+    puzzle = Puzzle(puzzle_json)
+    result = find_empty(puzzle)
+    assert result == expected
