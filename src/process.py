@@ -45,3 +45,17 @@ def autocomplete():
     Autocompletes the Sudoku puzzle
     """
     pass
+
+
+def find_empty():
+    """
+    Find empty squares in the given board
+    """
+    pass
+
+
+def is_valid():
+    """
+    Checks if the given input is valid in the given board
+    """
+    pass
