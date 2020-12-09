@@ -44,18 +44,53 @@ def autocomplete():
     """
     Autocompletes the Sudoku puzzle
     """
-    pass
+    empty_squares = find_empty()
+    i = 0
+    while i != len(empty_squares):
+        xy_coord = empty_squares[i]
+        for num in range(1, 10):
+            if is_valid(puzzle, xy_coord, num):
+                puzzle.place_value(xy_coord, num)
+                i += 1
+        if num == 9 and puzzle.squares[xy_coord[1]][xy_coord[0]].value == 0:
+            i -= 1
 
 
-def find_empty():
+def find_empty(puzzle):
     """
     Find empty squares in the given board
     """
-    pass
+    empty_squares = []
+    for y in range(len(puzzle.squares)):
+        for x in range(len(puzzle.squares[0])):
+            if puzzle.squares[y][x].__init_value == 0:
+                empty_squares.append((x, y))
+    return empty_squares
 
 
-def is_valid():
+def is_valid(puzzle, xy_coord, input):
     """
     Checks if the given input is valid in the given board
     """
-    pass
+    # validate row consistency
+    for x in range(len(puzzle.squares[0])):
+        if puzzle.squares[xy_coord[1]][x].input_entered == input and\
+         xy_coord[0] != x:
+            return False
+
+    # validate column consistency
+    for y in range(len(puzzle.squares)):
+        if puzzle.squares[y][xy_coord[0]].input_entered == input and\
+         xy_coord[1] != y:
+            return False
+
+    # validate 3x3 subgrid consistency
+    x_grid = xy_coord[0] // 3
+    y_grid = xy_coord[1] // 3
+    for y in range(y_grid * 3, y_grid * 3 + 3):
+        for x in range(x_grid * 3, x_grid * 3 + 3):
+            if puzzle.squares[y][x].input_entered == input and\
+             (x, y) != xy_coord:
+                return False
+
+    return True
