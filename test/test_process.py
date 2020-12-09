@@ -16,7 +16,7 @@ def test_event_response():
 def test_autocomplete(puzzle_json, expected):
     puzzle = Puzzle(puzzle_json)
     autocomplete(puzzle)
-    result = [[puzzle.squares[y][x].input_entered
+    result = [[puzzle.squares[y][x].value
               for x in range(len(puzzle.squares[0]))]
               for y in range(len(puzzle.squares))]
     assert result == expected

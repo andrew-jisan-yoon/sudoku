@@ -96,7 +96,7 @@ class Puzzle:
 
         if mouse_pos[0] < horizontal and mouse_pos[1] < vertical:
             subject = self.squares[xy_coord[1]][xy_coord[0]]
-            if subject.get_init() == 0:
+            if subject.is_editable is True:
                 self.selected = xy_coord
 
     def place_value(self, value):
@@ -107,30 +107,27 @@ class Puzzle:
         """
         if self.selected:
             subject = self.squares[self.selected[1]][self.selected[0]]
-            if subject.get_init() == 0:
-                subject.input_entered = value
+            if subject.is_editable is True:
+                subject.value = value
                 # initializing self.selected
                 self.selected = None
 
 
 class Square:
-    init_text_font = pygame.font.SysFont('arial', 40, bold=True)
-    input_text_font = pygame.font.SysFont('arial', 30, italic=True)
-    init_text_color = pygame.Color('blue')
-    input_text_color = pygame.Color('black')
+    non_editable_font = pygame.font.SysFont('arial', 40, bold=True)
+    non_editable_color = pygame.Color('blue')
+    editable_font = pygame.font.SysFont('arial', 30, italic=True)
+    editable_color = pygame.Color('black')
 
     def __init__(self,
                  xy_coord: "xy-coordinates by indices",
                  width, height,
-                 init_value: int):
+                 value: int):
         self.xy_coord = xy_coord
         self.width = width
         self.height = height
-        self.__init_value = init_value
-        self.input_entered = None
-
-    def get_init(self):
-        return self.__init_value
+        self.value = value
+        self.is_editable = True if value == 0 else False
 
     def draw(self, display):
         horizontal, vertical = display.get_size()
@@ -139,12 +136,12 @@ class Square:
 
         # Draw the value at the center
         text = None
-        if self.__init_value != 0:
-            text = self.init_text_font.render(str(self.__init_value), True,
-                                              self.init_text_color)
-        elif self.__init_value == 0 and self.input_entered is not None:
-            text = self.input_text_font.render(str(self.input_entered), True,
-                                               self.input_text_color)
+        if self.is_editable is False:
+            text = self.non_editable_font.render(str(self.value), True,
+                                                 self.non_editable_color)
+        elif self.is_editable is True and self.value != 0:
+            text = self.editable_font.render(str(self.value), True,
+                                             self.editable_color)
         if text:
             text_location = (topleft_vertex[0] +
                              self.width / 2 - text.get_width() / 2,
