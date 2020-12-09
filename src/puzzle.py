@@ -73,8 +73,8 @@ class Puzzle:
                              rect, line_width)
             # Draw the temp input if applicable
             if key:
-                text = selected.input_text_font.\
-                    render(str(key), True, selected.input_text_color)
+                text = selected.editable_font.\
+                    render(str(key), True, selected.editable_color)
                 text_location = (topleft_vertex[0] + text.get_width() / 2,
                                  topleft_vertex[1] + text.get_height() / 2)
                 self.display.blit(text, text_location)
