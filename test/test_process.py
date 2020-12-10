@@ -24,7 +24,8 @@ def test_autocomplete(puzzle_json, expected):
 
 
 @pytest.mark.parametrize("puzzle_json, expected", [
-    ([[1, 0, 0], [2, 0, 7], [0, 6, 0]], (1, 0))
+    ([[1, 0, 0], [2, 0, 7], [0, 6, 0]],
+     [(1, 0), (2, 0), (1, 1), (0, 2), (2, 2)])
 ])
 def test_find_empty(puzzle_json, expected):
     puzzle = Puzzle(puzzle_json)
