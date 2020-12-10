@@ -96,7 +96,7 @@ class Puzzle:
 
         if mouse_pos[0] < horizontal and mouse_pos[1] < vertical:
             subject = self.squares[xy_coord[1]][xy_coord[0]]
-            if subject.is_editable is True:
+            if subject.is_editable() is True:
                 self.selected = xy_coord
 
     def place_value(self, value):
@@ -107,7 +107,7 @@ class Puzzle:
         """
         if self.selected:
             subject = self.squares[self.selected[1]][self.selected[0]]
-            if subject.is_editable is True:
+            if subject.is_editable() is True:
                 subject.value = value
                 # initializing self.selected
                 self.selected = None
@@ -127,7 +127,10 @@ class Square:
         self.width = width
         self.height = height
         self.value = value
-        self.is_editable = True if value == 0 else False
+        self.__is_editable = True if value == 0 else False
+
+    def is_editable(self):
+        return self.__is_editable
 
     def draw(self, display):
         horizontal, vertical = display.get_size()
@@ -136,10 +139,10 @@ class Square:
 
         # Draw the value at the center
         text = None
-        if self.is_editable is False:
+        if self.is_editable() is False:
             text = self.non_editable_font.render(str(self.value), True,
                                                  self.non_editable_color)
-        elif self.is_editable is True and self.value != 0:
+        elif self.is_editable() is True and self.value != 0:
             text = self.editable_font.render(str(self.value), True,
                                              self.editable_color)
         if text:

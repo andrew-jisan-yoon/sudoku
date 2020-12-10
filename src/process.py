@@ -63,7 +63,7 @@ def find_empty(puzzle):
     empty_squares = []
     for y in range(len(puzzle.squares)):
         for x in range(len(puzzle.squares[0])):
-            if puzzle.squares[y][x].is_editable is True:
+            if puzzle.squares[y][x].is_editable() is True:
                 empty_squares.append((x, y))
     return empty_squares
 
