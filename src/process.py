@@ -13,7 +13,7 @@ def event_response(puzzle, key, event):
 
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_SPACE:
-            autocomplete()
+            autocomplete(puzzle)
 
         elif event.key == pygame.K_RETURN:
             key = puzzle.place_value(key)
@@ -40,20 +40,28 @@ def event_response(puzzle, key, event):
     return key
 
 
-def autocomplete():
+def autocomplete(puzzle):
     """
     Autocompletes the Sudoku puzzle
     """
-    empty_squares = find_empty()
+    empty_squares = find_empty(puzzle)
     i = 0
     while i != len(empty_squares):
-        xy_coord = empty_squares[i]
-        for num in range(1, 10):
-            if is_valid(puzzle, xy_coord, num):
-                puzzle.place_value(xy_coord, num)
+        puzzle.selected = empty_squares[i]
+        subject = puzzle.squares[puzzle.selected[1]][puzzle.selected[0]]
+        if subject.value != 0:
+            start_num = subject.value + 1
+        else:
+            start_num = 1
+        for num in range(start_num, 10):
+            if is_valid(puzzle, puzzle.selected, num):
+                puzzle.place_value(num)
                 i += 1
-        if num == 9 and puzzle.squares[xy_coord[1]][xy_coord[0]].value == 0:
+                break
+        if puzzle.selected is not None:
             i -= 1
+            if subject.value != 0:
+                puzzle.place_value(0)
 
 
 def find_empty(puzzle):
